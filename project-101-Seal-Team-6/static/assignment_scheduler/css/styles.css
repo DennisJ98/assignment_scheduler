@@ -1,0 +1,279 @@
+body {
+  background-color: #232D4B;
+  overflow-x: hidden;
+}
+
+
+.topbar {
+  color:white;
+  display: inline-block;
+}
+
+.classes_sidebar {
+  background-color:#182035;
+  padding: 24px;
+  padding-left: 48px;
+}
+
+.classes_sidebar input{
+	width: 134px;
+}
+
+.classes_sidebar select{
+	width: 134px;
+}
+
+.main_sidebar {
+  background-color:#E57200;
+  
+}
+
+h1 {
+	color:white;
+	font-size: 32px;
+	padding: 16px;
+}
+
+h2 {
+	color: white;
+	font-size: 20px;
+	margin-top: 24px;
+}
+
+/* Extra Small Devices, Phones */ 
+@media only screen and (max-width : 480px) {
+	h2{
+		visibility: hidden;
+	}
+}
+
+h3 {
+  color:white;
+  font-size:24px;
+  padding-bottom: 16px;
+}
+
+h4 {
+	color:white;
+	padding:8px;
+	font-size:18px;
+}
+
+footer {
+  background-color:#182035;
+  height:96px;
+  width: 100%;
+  position:absolute;
+  bottom:0;
+  
+}
+
+.main_sidebar ul li a, .main_sidebar ul li a:hover {
+  color:white;
+  padding:1vw;
+}
+
+.main_sidebar ul {
+  margin-top:2vw;
+}
+
+.main_sidebar p {
+  color:white;
+  padding:1vw;
+}
+
+.main_sidebar .card {
+  background-color:#B25600;
+  border:none;
+  margin-bottom:4vw;
+}
+
+.main_sidebar .tab-pane {
+  margin:1vw;
+}
+
+h5 {
+  color:white;
+}
+
+.navbar-light .navbar-brand:hover, .navbar-light .navbar-brand:visited {
+  color:white;
+}
+
+p {
+  color:white;
+}
+
+.calendarbox {
+  padding:2vw;
+  background-color: white;
+  
+}
+
+form {
+	color:white !important;
+}
+
+.orange {
+	background-color: #B25600;
+	border: none;
+	color: white;
+	padding: 2px;
+	margin: 2px;
+}
+
+.error {
+	color: #ff8080;
+}
+
+.auth-block { 
+	color:white;
+}
+
+button{
+	background-color: #B25600;
+	color: white;
+	border: none;
+	border-radius: 2px;
+	padding: 8px;
+	margin-top:8px;
+}
+
+button:hover{
+	background-color: white;
+	color: #B25600;
+	border: none;
+	border-radius: 2px;
+	padding: 8px;
+	margin-top:8px;
+}
+
+.todo{
+	border-style: solid;
+    border-width: 2px;
+    border-color: white;
+    padding: 0px;
+    width: 32px;
+    height: 32px;
+    top: auto;
+    bottom: auto;
+    margin: 8px;
+    color: #B25600;
+}
+
+.todo:hover{
+	border-style: solid;
+    border-width: 2px;
+    border-color: white;
+    padding: 0px;
+    width: 32px;
+    height: 32px;
+    top: auto;
+    bottom: auto;
+    margin: 8px;
+}
+
+
+.login-block{
+	margin-top: 32px;
+}
+
+.login-block a {
+	color: white;
+	padding: 8px;
+	border-style: solid;
+	border-width: 2px;
+	border-color: white;
+	border-radius: 4px;
+}
+
+.login-block a:hover{
+	color: #232D4B;
+	padding: 8px;
+	background-color: white;
+	border-radius: 4px;
+	text-decoration: none;
+}
+
+.logout{
+	color: white;
+	padding: 8px;
+	border-style: solid;
+	border-width: 2px;
+	border-color: white;
+	border-radius: 4px;
+	position: absolute;
+	bottom: 20px;
+}
+.logout:hover{
+	color: #232D4B;
+	padding: 8px;
+	background-color: white;
+	border-radius: 4px;
+	text-decoration: none;
+	position: absolute;
+	bottom: 20px;
+}
+
+.linkbutton{
+	color: white;
+	padding: 8px;
+	border-style: solid;
+	border-width: 2px;
+	border-color: white;
+	border-radius: 4px;
+}
+
+.linkbutton:hover{
+	color: #232D4B;
+	padding: 8px;
+	border-style: solid;
+	background-color: white;
+	border-radius: 4px;
+	border-width: 2px;
+	border-color: white;
+	text-decoration: none;
+}
+
+.smalltext{
+	font-size: 12px;
+}
+
+.removeAssignment{
+	background-color: #B25600;
+}
+
+.completeAssignment{
+	background-color: #B25600;
+}
+
+.darkbox{
+	background-color:rgba(0, 0, 0, 0.5);
+	border-style: solid;
+	border-width: 2px;
+	border-color: white;
+	margin: 32px;
+	padding: 32px;
+}
+
+.landingimg{
+	width: 100%;
+	height: auto;
+	background-image: url("https://upload.wikimedia.org/wikipedia/commons/1/1a/University_of_Virginia_Lawn_walkway.jpg");
+	background-repeat: no-repeat;
+	background-size: cover;
+	background-position: center;
+	padding: 64px;
+}
+
+.add-assignment input{
+	width: 100% !important;
+}
+
+.add-assignment select{
+	width: 100% !important;
+}
+
+.add-assignment textarea{
+	width: 100% !important;
+}

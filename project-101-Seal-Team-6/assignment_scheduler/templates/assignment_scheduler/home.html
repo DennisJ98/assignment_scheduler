@@ -1,0 +1,209 @@
+<!-- templates/home.html -->
+<!DOCTYPE html>
+<html>
+
+<head>
+	{% load static %}
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assignment Scheduler</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static "assignment_scheduler/css/design.css" %}">
+    <link rel="stylesheet" href="{% static "assignment_scheduler/css/Navigation-Clean.css" %}">
+    <link rel="stylesheet" href="{% static "assignment_scheduler/css/styles.css" %}">
+</head>
+
+<body>
+{% if user.is_authenticated %}
+	<div class= "container topbar">
+	    <div class="row">
+	    	<div class="col-sm-6">
+		        <h1>Assignment Scheduler</h1>
+		    </div>
+		    <div class="col-sm-4">
+		    	<h2>Welcome {{user.username}}!</h2>
+		    </div>
+		    <div class="col-sm-2">
+		    	<a class="logout" href="{% url 'logout' %}">logout</a>
+		    </div>
+	    </div>
+	</div>
+    <div>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-4 col-lg-2 classes_sidebar">
+                
+                    <h3>My Courses:</h3>
+                    {% if Course_List %}
+                        {% for Course in Course_List %}
+                        <li class="list-group-item"><span>{{Course.course_mn}} {{Course.course_num2}}</span></li>
+                        {% endfor %}
+                    {% endif %}
+                    
+                    <hr>
+                    
+                    <a class="linkbutton" data-toggle="collapse" href="#demo" role="button" aria-expanded="false" aria-controls="demo">More</a></p>
+                    <hr>
+                    <div id = "demo" class ="collapse">
+                    <h5>Add Courses:</h5>
+                    <p class="smalltext"><em>All courses are added from Lou's List's Fall 2018 listing</em></p>
+                    {% if error_code_course %}
+	                    {% if error_code_course == "failed_to_find_course" %}
+	                    	<p class="error">Failed to Find Course<p>
+	                    {% endif %}
+                    {% endif %}
+                    
+                    <form method="POST" action="/get_new_course">
+					{% csrf_token %}
+					5 Digit Code: <input type="text" name="course_number">
+					<div class = "text-right">
+					<button type="submit">Add</button>
+					</div>
+					</form>
+					
+					<hr>
+					
+					<h5>Remove Courses:</h5>
+					<form method="POST" action="/remove_course" id="remove_course_form">
+						{% csrf_token %}
+						<select name = "course_key" form = "remove_course_form">
+						  {% if Course_List %}
+				            {% for Course in Course_List %}
+				            <option value = {{ Course.course_key }}>{{Course.course_mn}} {{Course.course_num2}}</option>
+				            {% endfor %}
+				          {% endif %}
+						</select>
+						<div class = "text-right">
+							<button type="submit" value = {{Course.course_key}}>Remove</button>
+						</div>
+					</form>
+				</div>
+                    
+                </div>
+                {% if Student_Calendar %}
+                <div class="col-md-4 col-lg-7 calendarbox"><iframe src={{Student_Calendar}} style="border: 0" width="700" height="500" frameborder="0" scrolling="yes"></iframe></div>
+                {% else %}
+                <div class="col-md-4 col-lg-7 calendarbox"><iframe src="https://calendar.google.com/calendar/embed?src=virginia.edu_3d1je8mvr3a42ej096dgf3o51s%40group.calendar.google.com&ctz=America%2FNew_York" style="border: 0" width="700" height="500" frameborder="0" scrolling="yes"></iframe></div>
+                {% endif %}
+                <div class="col-md-4 col-lg-3 main_sidebar"><ul class="nav nav-pills">
+  <li class="active"><a data-toggle="pill" href="#details">Details</a></li>
+  <li><a data-toggle="pill" href="#todo">ToDo</a></li>
+  <li><a data-toggle="pill" href="#addAssignment">Add Assignment</a></li>
+</ul>
+<div class="tab-content">
+  <hr>
+  <div id="details" class="tab-pane fade-in active">
+    <h5>Details</h5>
+    <form method="POST" action="/get_assignment_details" id="get_details_form">
+		{% csrf_token %}
+		<select name = "assignment_key" form = "get_details_form">
+		  {% if Assignment_List %}
+            {% for Assignment in Assignment_Course_List %}
+            <option value = {{ Assignment.0.pk }}>{{Assignment.0.assi_title}} -- {{Assignment.1.course_mn}} {{Assignment.1.course_num2}}</option>
+            {% endfor %}
+          {% endif %}
+		</select>
+		<button type="submit">Get Details</button>
+	</form>
+	
+	<hr>
+	
+	 {% if Assignment %}
+	 	<h5>{{Assignment.assi_title}}</h5>
+	 	<p><strong>Course: </strong>{{Assi_Course.course_mn}} {{Assi_Course.course_num2}}</p>
+	 	<p><strong>Due Date:</strong> {{Assignment.assi_due_date}}</p>
+        <textarea class="orange" rows="4" cols="30" name="assignment_description_field" form="new_assignment_form" readonly>{{Assignment.assi_description}}</textarea>
+        
+        <form action="/hide_assignment" method="POST">
+        	{% csrf_token %}
+        	<input name="hide_assignment_button" type="hidden" value={{Assignment.pk}}>
+        	<button class="" type="button" data-toggle="collapse" data-target="#completeAssignment" aria-expanded="false" aria-controls="completeAssignment">Complete</button>
+        	<div id = "completeAssignment" class = "collapse completeAssignment">
+        		<p><em>Are you sure? This will permanently hide this assignment from your list.</em></p>
+        		<button class="linkbutton" type="submit">Yes, complete</button>
+        	</div>
+		</form>
+        
+        <form action="/remove_assignment" method="POST">
+        	{% csrf_token %}
+        	<input name="remove_assignment_button" type="hidden" value={{Assignment.pk}}>
+        	<button class="" type="button" data-toggle="collapse" data-target="#removeAssignment" aria-expanded="false" aria-controls="removeAssignment">Remove</button>
+        	<div id = "removeAssignment" class = "collapse removeAssignment">
+        		<p><em>Are you sure? This will remove the assignment from the entire class...</em></p>
+        		<button class="linkbutton" type="submit">Yes, remove</button>
+        	</div>
+		</form>
+     {% endif %}
+	
+  </div>
+  <div id="todo" class="tab-pane fade">
+    <h5>My To-Do List</h5>
+    <div class="card card-block">
+        {% if Assignment_List %}
+            {% for Assignment in Assignment_List %}
+	            <div class="row">
+	            	<div class="col-s-4 col-s-offset-2">
+	            		<form action="/hide_assignment" method="POST">
+				        	{% csrf_token %}
+				        	<input name="hide_assignment_button" type="hidden" value={{Assignment.pk}}>
+				        	<button type="submit" class="todo">✓</button>
+						</form>
+	            	</div>
+	            	<div class="col-s-6 text-left">
+	            		<p>{{Assignment.assi_title}}</p>
+	            		<p><em>{{Assignment.assi_due_date}}</em></p>
+	            	</div>
+	            </div>
+            {% endfor %}
+          {% endif %}
+    </div>
+  </div>
+  <div id="addAssignment" class="tab-pane fade">
+  	<h5>Add Assignment</h5>
+  	<hr>
+    <form method="POST" action="/get_new_assignment" id="new_assignment_form" class="add-assignment">
+    	{% csrf_token %}
+    	Name:
+    	<input class="orange" type="text" name="assignment_name_field">
+    	<hr>
+    	Due Date:
+    	<input class="orange" type="date" name="due_date_field">
+    	<hr>
+    	Due Time:
+    	<input class="orange" type="time" name="due_time_field">
+    	<hr>
+    	Class:
+    	<select class="orange" name = "course_key" form = "new_assignment_form">
+		  {% if Course_List %}
+            {% for Course in Course_List %}
+            <option value = {{ Course.course_key }}>{{Course.course_mn}} {{Course.course_num2}}</option>
+            {% endfor %}
+          {% endif %}
+		</select>
+		<hr>
+    	Description:
+    	<textarea class="orange" rows="4" cols="30" name="assignment_description_field" form="new_assignment_form"></textarea>
+    	<button type="submit">Add</button>
+	</form>
+  </div>
+</div></div>
+
+            </div>
+        </div>      
+        
+    </div>
+    
+{% else %}
+<div class="container login-block">
+	  <h3>You are not logged in</h3>
+	  <p><a href="{% url 'login' %}">login</a><p>
+ </div>
+ <footer></footer>
+
+{% endif %}
+    
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+</body>
+</html>

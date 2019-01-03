@@ -1,0 +1,17 @@
+{% extends 'assignment_scheduler/base.html' %}
+
+{% block title %}Login{% endblock %}
+
+{% block content %}
+<h3>Login</h3>
+<form method="post">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <button type="submit">Login</button>
+</form>
+
+<hr>
+
+<p><em>Don't have an account?</em></p>
+<a href="{% url 'signup' %}">Sign up!</a>
+{% endblock %}

@@ -1,0 +1,7 @@
+Django==2.1.2
+gunicorn
+django-heroku
+dj-database-url==0.5.0
+oauth2client
+pytz
+google-api-python-client==1.7.4

@@ -1,0 +1,23 @@
+<!-- templates/signup.html -->
+{% extends 'assignment_scheduler/base.html' %}
+
+{% block title %}Sign Up{% endblock %}
+
+{% block content %}
+  {% if user.is_authenticated %}
+  <h3>Already Logged In!</h3>
+  <p>Click <a href="{% url 'home' %}">here</a> to resume your previous session.</p>
+  {% else %}
+  <h1>Sign up</h1>
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Sign up</button>
+  </form>
+  
+  <hr>
+  
+  <p><em>Already have an account?</em></p>
+  <a href="{% url 'login' %}">Login</a>
+  {% endif %}
+{% endblock %}
